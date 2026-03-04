@@ -331,13 +331,13 @@ st.markdown(f"""
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 t1, t2, t3, t4, t5, t6, t7 = st.tabs([
-    "📈 Mercado",
+    "📈 Market",
     "⚗️ Crack Spreads",
     "🏆 Benchmark Margens",
     "🌍 Crude Sourcing",
     "🔮 Forecast",
-    "📊 IR",
-    "📰 Notícias",
+    "📊 Market Performance",
+    "📰 News",
 ])
 
 
