@@ -368,12 +368,6 @@ with st.spinner("A carregar dados de mercado..."):
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = False
 
-col_toggle, _ = st.columns([1, 10])
-with col_toggle:
-    if st.button("🌙 Dark" if not st.session_state.dark_mode else "☀️ Light"):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
-
 dark = st.session_state.dark_mode
 
 # ── Dynamic theme variables ───────────────────────────────────────────────────
@@ -463,15 +457,23 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown(f"""
-<div style="background:{bg}; border-bottom:2px solid {accent}; padding:18px 0 14px; margin-bottom:24px;">
-  <div style="display:flex; align-items:center; gap:12px;">
-    <div style="font-size:22px; font-weight:700; color:{text};">🛢️ Oil Market Intelligence Dashboard</div>
-    <div style="font-size:13px; color:{text3};"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</div>
-  </div>
-  <div style="font-size:13px; color:{text3}; margin-top:4px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
-</div>
-""", unsafe_allow_html=True)
+col_title, col_btn = st.columns([8, 1])
+with col_title:
+    st.markdown(f"""
+    <div style="background:{bg}; border-bottom:2px solid {accent}; padding:18px 0 14px; margin-bottom:24px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="font-size:22px; font-weight:700; color:{text};">🛢️ Oil Market Intelligence Dashboard</div>
+        <div style="font-size:13px; color:{text3};"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</div>
+      </div>
+      <div style="font-size:13px; color:{text3}; margin-top:4px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
+    </div>
+    """, unsafe_allow_html=True)
+with col_btn:
+    st.markdown("<div style='padding-top:18px;'>", unsafe_allow_html=True)
+    if st.button("🌙 Dark" if not dark else "☀️ Light"):
+        st.session_state.dark_mode = not dark
+        st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Helper — uses theme variables ─────────────────────────────────────────────
 def make_fig(height=300):
