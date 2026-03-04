@@ -128,7 +128,7 @@ def fetch_prices():
     result = {}
     for name, ticker in tickers.items():
         try:
-            data = yf.Ticker(ticker).history(period="5d", interval="1d")
+            data = yf.Ticker(ticker).history(period="1mo", interval="1d")
             if len(data) >= 2:
                 curr = data["Close"].iloc[-1]
                 prev = data["Close"].iloc[-2]
