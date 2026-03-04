@@ -124,21 +124,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-def make_fig(height=300):
-    fig = go.Figure()
-    fig.update_layout(
-        paper_bgcolor="#ffffff", plot_bgcolor="#ffffff",
-        font=dict(family="Source Sans 3", color="#6b7280", size=11),
-        margin=dict(l=0, r=0, t=10, b=0), height=height,
-        xaxis=dict(gridcolor="#f3f4f6", showline=False, tickfont=dict(color="#9ca3af")),
-        yaxis=dict(gridcolor="#f3f4f6", showline=False, tickfont=dict(color="#9ca3af")),
-        legend=dict(bgcolor="rgba(255,255,255,0.9)", font=dict(color="#374151"), bordercolor="#e5e7eb", borderwidth=1),
-        hovermode="x unified",
-    )
-    return fig
-
-
 # ── Data fetching ─────────────────────────────────────────────────────────────
 @st.cache_data(ttl=300)
 def fetch_prices():
@@ -379,15 +364,128 @@ with st.spinner("A carregar dados de mercado..."):
     news   = fetch_news()
 
 # ── Header ────────────────────────────────────────────────────────────────────
+# ── Theme toggle ──────────────────────────────────────────────────────────────
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
+
+col_toggle, _ = st.columns([1, 10])
+with col_toggle:
+    if st.button("🌙 Dark" if not st.session_state.dark_mode else "☀️ Light"):
+        st.session_state.dark_mode = not st.session_state.dark_mode
+        st.rerun()
+
+dark = st.session_state.dark_mode
+
+# ── Dynamic theme variables ───────────────────────────────────────────────────
+if dark:
+    bg        = "#0a0c0f"
+    bg2       = "#111318"
+    border    = "#21262d"
+    text      = "#f1f5f9"
+    text2     = "#9ca3af"
+    text3     = "#6b7280"
+    card_bg   = "#111318"
+    accent    = "#f97316"
+    pos       = "#4ade80"
+    neg       = "#f87171"
+    grid      = "#1a1f2e"
+    info_bg   = "#0f1923"
+    info_border= "#1e3a5f"
+    info_text = "#93c5fd"
+    warn_bg   = "#1a1200"
+    warn_border= "#854d0e"
+    warn_text = "#fbbf24"
+else:
+    bg        = "#f5f0eb"
+    bg2       = "#f5f0eb"
+    border    = "#e5e7eb"
+    text      = "#111827"
+    text2     = "#374151"
+    text3     = "#9ca3af"
+    card_bg   = "#ffffff"
+    accent    = "#e8450a"
+    pos       = "#16a34a"
+    neg       = "#dc2626"
+    grid      = "#f3f4f6"
+    info_bg   = "#fff7f5"
+    info_border= "#fcd5c5"
+    info_text = "#7c2d12"
+    warn_bg   = "#fffbeb"
+    warn_border= "#fde68a"
+    warn_text = "#92400e"
+
 st.markdown(f"""
-<div style="background:#fff; border-bottom:2px solid #e8450a; padding:18px 0 14px; margin-bottom:24px;">
+<style>
+  html, body, [class*="css"] {{ background-color:{bg} !important; color:{text}; }}
+  .stApp {{ background-color:{bg} !important; }}
+
+  .metric-card {{
+    background:{card_bg}; border:1px solid {border}; border-radius:12px;
+    padding:18px 20px; position:relative; overflow:hidden; margin-bottom:10px;
+    box-shadow:0 1px 4px rgba(0,0,0,{'0.2' if dark else '0.06'});
+  }}
+  .metric-card::before {{ content:''; position:absolute; top:0;left:0;right:0; height:3px; background:{accent}; }}
+  .mc-green::before  {{ background:{'#4ade80' if dark else '#16a34a'} !important; }}
+  .mc-blue::before   {{ background:{'#60a5fa' if dark else '#2563eb'} !important; }}
+  .mc-purple::before {{ background:{'#c084fc' if dark else '#7c3aed'} !important; }}
+  .mc-yellow::before {{ background:{'#facc15' if dark else '#d97706'} !important; }}
+
+  .metric-label {{ font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:{text3}; margin-bottom:6px; }}
+  .metric-value {{ font-family:'Source Code Pro',monospace; font-size:26px; font-weight:600; color:{text}; line-height:1; }}
+  .metric-sub   {{ font-size:12px; color:{text3}; margin-top:4px; }}
+  .dpos {{ color:{pos}; font-size:13px; margin-top:5px; font-weight:600; }}
+  .dneg {{ color:{neg}; font-size:13px; margin-top:5px; font-weight:600; }}
+
+  .section-header {{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:{accent}; border-bottom:2px solid {border}; padding-bottom:8px; margin-bottom:20px; margin-top:8px; }}
+
+  .news-card {{ background:{card_bg}; border:1px solid {border}; border-left:4px solid {accent}; border-radius:8px; padding:14px 18px; margin-bottom:10px; }}
+  .news-source {{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:{accent}; margin-bottom:5px; }}
+  .news-title  {{ font-size:14px; font-weight:600; color:{text}; line-height:1.4; margin-bottom:5px; }}
+  .news-title a {{ color:{text}; text-decoration:none; }}
+  .news-title a:hover {{ color:{accent}; }}
+  .news-date {{ font-size:11px; color:{text3}; }}
+
+  .info-box {{ background:{info_bg}; border:1px solid {info_border}; border-radius:8px; padding:12px 16px; font-size:13px; color:{info_text}; margin-bottom:14px; line-height:1.6; }}
+  .warn-box {{ background:{warn_bg}; border:1px solid {warn_border}; border-radius:8px; padding:12px 16px; font-size:13px; color:{warn_text}; margin-bottom:14px; line-height:1.6; }}
+
+  .crude-card {{ background:{card_bg}; border:1px solid {border}; border-radius:10px; padding:16px 18px; margin-bottom:10px; }}
+  .crude-name {{ font-size:14px; font-weight:700; color:{text}; margin-bottom:4px; }}
+  .crude-origin {{ font-size:12px; color:{text3}; margin-bottom:10px; }}
+  .crude-bar-bg {{ background:{border}; border-radius:4px; height:8px; margin-bottom:8px; }}
+
+  .live-dot {{ display:inline-block; width:8px;height:8px; background:{pos}; border-radius:50%; margin-right:6px; animation:pulse 2s infinite; }}
+  @keyframes pulse {{ 0%,100%{{opacity:1}} 50%{{opacity:.3}} }}
+
+  div[data-testid="stTabs"] button {{ font-size:13px !important; font-weight:600 !important; color:{text3} !important; }}
+  div[data-testid="stTabs"] button[aria-selected="true"] {{ color:{accent} !important; border-bottom-color:{accent} !important; }}
+  .stSpinner > div {{ border-top-color:{accent} !important; }}
+</style>
+""", unsafe_allow_html=True)
+
+# ── Header ────────────────────────────────────────────────────────────────────
+st.markdown(f"""
+<div style="background:{bg}; border-bottom:2px solid {accent}; padding:18px 0 14px; margin-bottom:24px;">
   <div style="display:flex; align-items:center; gap:12px;">
-    <div style="font-size:22px; font-weight:700; color:#111827;">🛢️ Oil Market Intelligence Dashboard</div>
-    <div style="font-size:13px; color:#6b7280;"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</div>
+    <div style="font-size:22px; font-weight:700; color:{text};">🛢️ Oil Market Intelligence Dashboard</div>
+    <div style="font-size:13px; color:{text3};"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</div>
   </div>
-  <div style="font-size:13px; color:#9ca3af; margin-top:4px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
+  <div style="font-size:13px; color:{text3}; margin-top:4px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
 </div>
 """, unsafe_allow_html=True)
+
+# ── Helper — uses theme variables ─────────────────────────────────────────────
+def make_fig(height=300):
+    fig = go.Figure()
+    fig.update_layout(
+        paper_bgcolor=card_bg, plot_bgcolor=card_bg,
+        font=dict(family="Source Sans 3", color=text3, size=11),
+        margin=dict(l=0, r=0, t=10, b=0), height=height,
+        xaxis=dict(gridcolor=grid, showline=False, tickfont=dict(color=text3)),
+        yaxis=dict(gridcolor=grid, showline=False, tickfont=dict(color=text3)),
+        legend=dict(bgcolor=card_bg, font=dict(color=text2), bordercolor=border, borderwidth=1),
+        hovermode="x unified",
+    )
+    return fig
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 t1, t2, t3, t4, t5, t6, t7 = st.tabs([
