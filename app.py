@@ -598,7 +598,6 @@ with t3:
         benchmarks = [
             (c1, "Med Cracking (proxy)", "Med Cracking", "metric-card"),
             (c2, "NW Europe (proxy)",    "NW Europe",    "metric-card mc-blue"),
-            (c3, "Sines Proxy",          "Sines (proxy)","metric-card mc-green"),
         ]
         for col, key, label, mc in benchmarks:
             with col:
@@ -622,7 +621,6 @@ with t3:
         fig_b = make_fig(340)
         fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["NW Europe (proxy)"],    name="NW Europe",  line=dict(color="#2563eb",width=2)))
         fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Med Cracking (proxy)"], name="Med Cracking",line=dict(color="#e8450a",width=2)))
-        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Sines Proxy"],          name="Sines",      line=dict(color="#16a34a",width=2,dash="dot")))
         fig_b.add_hline(y=0, line_dash="dash", line_color="#d1d5db")
         fig_b.update_layout(yaxis=dict(tickformat="$.0f", title="$/bbl"))
         st.plotly_chart(fig_b, use_container_width=True)
@@ -634,10 +632,10 @@ with t3:
         actual_nwe   = df_bench["NW Europe (proxy)"].iloc[-1]
 
         comp = pd.DataFrame({
-            "Região":          ["NW Europe", "Med Cracking", "Sines (proxy)"],
-            "Margem Actual":   [f"${actual_nwe:.2f}", f"${actual_med:.2f}", f"${actual_sines:.2f}"],
-            "vs NW Europe":    ["—", f"${actual_med-actual_nwe:.2f}", f"${actual_sines-actual_nwe:.2f}"],
-            "Média 6 meses":   [f"${df_bench['NW Europe (proxy)'].mean():.2f}", f"${df_bench['Med Cracking (proxy)'].mean():.2f}", f"${df_bench['Sines Proxy'].mean():.2f}"],
+            "Região":          ["NW Europe", "Med Cracking"],
+            "Margem Actual":   [f"${actual_nwe:.2f}", f"${actual_med:.2f}"],
+            "vs NW Europe":    ["—", f"${actual_med-actual_nwe:.2f}"],
+            "Média 6 meses":   [f"${df_bench['NW Europe (proxy)'].mean():.2f}", f"${df_bench['Med Cracking (proxy)'].mean():.2f}"],
         })
         st.dataframe(comp, hide_index=True, use_container_width=True)
 
