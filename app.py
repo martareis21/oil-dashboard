@@ -14,50 +14,112 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
+# ── CSS — Galp Light Theme ────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
-  html, body, [class*="css"] { font-family:'IBM Plex Sans',sans-serif; background-color:#0a0c0f; color:#e2e8f0; }
-  .stApp { background-color:#0a0c0f; }
-  h1,h2,h3 { font-family:'IBM Plex Mono',monospace !important; }
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
 
-  .metric-card {
-    background:linear-gradient(135deg,#111318 0%,#161b22 100%);
-    border:1px solid #21262d; border-radius:12px; padding:20px 24px;
-    position:relative; overflow:hidden; margin-bottom:8px;
+  /* ── Base ── */
+  html, body, [class*="css"] { font-family:'Source Sans 3',sans-serif; background-color:#f5f0eb; color:#1a1a1a; }
+  .stApp { background-color:#f5f0eb; }
+  h1,h2,h3 { font-family:'Source Sans 3',sans-serif !important; font-weight:700; color:#1a1a1a; }
+
+  /* ── Top nav bar ── */
+  .galp-header {
+    background:#c0392b;
+    padding:0 32px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:-1rem -1rem 0 -1rem;
+    position:sticky; top:0; z-index:999;
   }
-  .metric-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,#f97316,#fb923c); }
-  .mc-green::before { background:linear-gradient(90deg,#22c55e,#4ade80) !important; }
-  .mc-blue::before  { background:linear-gradient(90deg,#3b82f6,#60a5fa) !important; }
-  .mc-purple::before{ background:linear-gradient(90deg,#a855f7,#c084fc) !important; }
-  .mc-yellow::before{ background:linear-gradient(90deg,#eab308,#facc15) !important; }
+  .galp-logo { font-size:26px; font-weight:700; color:#fff; letter-spacing:-1px; }
+  .galp-nav  { font-size:13px; color:rgba(255,255,255,0.85); letter-spacing:.02em; }
 
-  .metric-label { font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:#6b7280; margin-bottom:8px; }
-  .metric-value { font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#f1f5f9; line-height:1; }
-  .metric-sub   { font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9ca3af; margin-top:4px; }
-  .dpos { color:#4ade80; font-size:13px; margin-top:6px; font-family:'IBM Plex Mono',monospace; }
-  .dneg { color:#f87171; font-size:13px; margin-top:6px; font-family:'IBM Plex Mono',monospace; }
+  /* ── Page title bar ── */
+  .galp-title-bar {
+    background:#fff;
+    border-bottom:3px solid #e8450a;
+    padding:18px 0 14px;
+    margin-bottom:24px;
+  }
+  .galp-title { font-size:22px; font-weight:700; color:#1a1a1a; }
+  .galp-subtitle { font-size:13px; color:#6b7280; margin-top:2px; }
 
-  .news-card { background:#111318; border:1px solid #21262d; border-left:3px solid #f97316; border-radius:8px; padding:16px 20px; margin-bottom:12px; }
-  .news-source { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:#f97316; margin-bottom:6px; }
-  .news-title  { font-size:14px; font-weight:600; color:#e2e8f0; line-height:1.4; margin-bottom:6px; }
-  .news-title a { color:#e2e8f0; text-decoration:none; }
-  .news-title a:hover { color:#fb923c; }
-  .news-date { font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4b5563; }
+  /* ── Metric cards ── */
+  .metric-card {
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:18px 20px;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:10px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .metric-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:#e8450a; }
+  .mc-green::before  { background:#16a34a !important; }
+  .mc-blue::before   { background:#2563eb !important; }
+  .mc-purple::before { background:#7c3aed !important; }
+  .mc-yellow::before { background:#d97706 !important; }
+  .mc-red::before    { background:#dc2626 !important; }
 
-  .section-header { font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.15em; color:#f97316; border-bottom:1px solid #21262d; padding-bottom:8px; margin-bottom:20px; }
-  .info-box { background:#0f1923; border:1px solid #1e3a5f; border-radius:8px; padding:14px 18px; font-size:13px; color:#93c5fd; margin-bottom:16px; line-height:1.6; }
-  .warn-box { background:#1a1200; border:1px solid #854d0e; border-radius:8px; padding:14px 18px; font-size:13px; color:#fbbf24; margin-bottom:16px; line-height:1.6; }
+  .metric-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:#9ca3af; margin-bottom:6px; }
+  .metric-value { font-family:'Source Code Pro',monospace; font-size:26px; font-weight:600; color:#111827; line-height:1; }
+  .metric-sub   { font-size:12px; color:#9ca3af; margin-top:4px; }
+  .dpos { color:#16a34a; font-size:13px; margin-top:5px; font-weight:600; }
+  .dneg { color:#dc2626; font-size:13px; margin-top:5px; font-weight:600; }
 
-  .crude-card { background:#111318; border:1px solid #21262d; border-radius:10px; padding:18px 20px; margin-bottom:10px; }
-  .crude-name { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:#f1f5f9; margin-bottom:6px; }
+  /* ── Section headers ── */
+  .section-header {
+    font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.12em; color:#e8450a;
+    border-bottom:2px solid #fde8e0;
+    padding-bottom:8px; margin-bottom:20px; margin-top:8px;
+  }
+
+  /* ── News cards ── */
+  .news-card {
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-left:4px solid #e8450a;
+    border-radius:8px;
+    padding:14px 18px;
+    margin-bottom:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+    transition:box-shadow .2s;
+  }
+  .news-card:hover { box-shadow:0 4px 12px rgba(232,69,10,0.1); }
+  .news-source { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#e8450a; margin-bottom:5px; }
+  .news-title  { font-size:14px; font-weight:600; color:#111827; line-height:1.4; margin-bottom:5px; }
+  .news-title a { color:#111827; text-decoration:none; }
+  .news-title a:hover { color:#e8450a; }
+  .news-date { font-size:11px; color:#9ca3af; }
+
+  /* ── Info / warn boxes ── */
+  .info-box { background:#fff7f5; border:1px solid #fcd5c5; border-radius:8px; padding:12px 16px; font-size:13px; color:#7c2d12; margin-bottom:14px; line-height:1.6; }
+  .warn-box { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 16px; font-size:13px; color:#92400e; margin-bottom:14px; line-height:1.6; }
+
+  /* ── Crude cards ── */
+  .crude-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px 18px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .crude-name { font-size:14px; font-weight:700; color:#111827; margin-bottom:4px; }
   .crude-origin { font-size:12px; color:#6b7280; margin-bottom:10px; }
-  .crude-bar-bg { background:#1f2937; border-radius:4px; height:8px; margin-bottom:8px; }
+  .crude-bar-bg { background:#f3f4f6; border-radius:4px; height:8px; margin-bottom:8px; }
   .crude-bar { height:8px; border-radius:4px; }
 
-  .live-dot { display:inline-block; width:8px;height:8px; background:#4ade80; border-radius:50%; margin-right:6px; animation:pulse 2s infinite; }
+  /* ── Live dot ── */
+  .live-dot { display:inline-block; width:8px;height:8px; background:#16a34a; border-radius:50%; margin-right:6px; animation:pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  /* ── Streamlit overrides ── */
+  div[data-testid="stTabs"] button { font-family:'Source Sans 3',sans-serif !important; font-size:13px !important; font-weight:600 !important; color:#6b7280 !important; }
+  div[data-testid="stTabs"] button[aria-selected="true"] { color:#e8450a !important; border-bottom-color:#e8450a !important; }
+  .stSelectbox > div > div { background:#fff !important; border-color:#e5e7eb !important; }
+  .stMultiSelect > div > div { background:#fff !important; }
+  div[data-testid="stDataFrame"] { background:#fff; border-radius:8px; }
+  .stSpinner > div { border-top-color:#e8450a !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -66,13 +128,14 @@ st.markdown("""
 def make_fig(height=300):
     fig = go.Figure()
     fig.update_layout(
-        paper_bgcolor="#0a0c0f", plot_bgcolor="#0a0c0f",
-        font=dict(family="IBM Plex Mono", color="#6b7280", size=11),
+        paper_bgcolor="#ffffff", plot_bgcolor="#ffffff",
+        font=dict(family="Source Sans 3", color="#6b7280", size=11),
         margin=dict(l=0, r=0, t=10, b=0), height=height,
-        xaxis=dict(gridcolor="#1a1f2e", showline=False),
-        yaxis=dict(gridcolor="#1a1f2e", showline=False),
-        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="#9ca3af")),
+        xaxis=dict(gridcolor="#f3f4f6", showline=False, tickfont=dict(color="#9ca3af")),
+        yaxis=dict(gridcolor="#f3f4f6", showline=False, tickfont=dict(color="#9ca3af")),
+        legend=dict(bgcolor="rgba(255,255,255,0.9)", font=dict(color="#374151"), bordercolor="#e5e7eb", borderwidth=1),
         hovermode="x unified",
+        plot_bgcolor="#ffffff",
     )
     return fig
 
@@ -318,26 +381,28 @@ with st.spinner("A carregar dados de mercado..."):
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div style="margin-bottom:28px; padding-top:8px;">
-  <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:4px;">
-    <span style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#f1f5f9;">🛢️ OIL MARKET INTELLIGENCE</span>
-    <span style="font-size:13px; color:#6b7280;"><span class="live-dot"></span>Live · Galp Refining Business Office</span>
+<div class="galp-header">
+  <div style="display:flex; align-items:center; gap:32px;">
+    <span class="galp-logo">galp</span>
+    <span class="galp-nav">Refining Business Office &nbsp;·&nbsp; Market Intelligence</span>
   </div>
-  <div style="font-size:12px; color:#4b5563; font-family:'IBM Plex Mono',monospace;">
-    Mercado · Crack Spreads · Benchmark Margens · Crude Sourcing · Forecast · Notícias · {datetime.now().strftime("%d/%m/%Y %H:%M")}
-  </div>
+  <span class="galp-nav"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</span>
+</div>
+<div style="background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 0 12px; margin-bottom:24px;">
+  <div style="font-size:20px; font-weight:700; color:#111827;">🛢️ Oil Market Intelligence Dashboard</div>
+  <div style="font-size:13px; color:#6b7280; margin-top:2px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 t1, t2, t3, t4, t5, t6, t7 = st.tabs([
-    "📈 Market",
+    "📈 Mercado",
     "⚗️ Crack Spreads",
     "🏆 Benchmark Margens",
     "🌍 Crude Sourcing",
     "🔮 Forecast",
-    "📊 Market Performance",
-    "📰 News",
+    "📊 IR",
+    "📰 Notícias",
 ])
 
 
@@ -366,8 +431,8 @@ with t1:
     wh = fetch_history("CL=F", period)
     if not bh.empty:
         fig = make_fig(320)
-        fig.add_trace(go.Scatter(x=bh["Date"], y=bh["Close"], name="Brent", line=dict(color="#f97316",width=2), fill="tozeroy", fillcolor="rgba(249,115,22,0.05)"))
-        fig.add_trace(go.Scatter(x=wh["Date"], y=wh["Close"], name="WTI",   line=dict(color="#3b82f6",width=2)))
+        fig.add_trace(go.Scatter(x=bh["Date"], y=bh["Close"], name="Brent", line=dict(color="#e8450a",width=2), fill="tozeroy", fillcolor="rgba(232,69,10,0.06)"))
+        fig.add_trace(go.Scatter(x=wh["Date"], y=wh["Close"], name="WTI",   line=dict(color="#2563eb",width=2)))
         fig.update_layout(yaxis=dict(tickformat="$.0f"))
         st.plotly_chart(fig, use_container_width=True)
 
@@ -377,8 +442,8 @@ with t1:
         m = bh.merge(wh, on="Date", suffixes=("_b","_w"))
         m["spread"] = m["Close_b"] - m["Close_w"]
         fig2 = make_fig(180)
-        fig2.add_trace(go.Scatter(x=m["Date"], y=m["spread"], line=dict(color="#a78bfa",width=2), fill="tozeroy", fillcolor="rgba(167,139,250,0.08)"))
-        fig2.add_hline(y=0, line_dash="dash", line_color="#374151")
+        fig2.add_trace(go.Scatter(x=m["Date"], y=m["spread"], line=dict(color="#7c3aed",width=2), fill="tozeroy", fillcolor="rgba(124,58,237,0.06)"))
+        fig2.add_hline(y=0, line_dash="dash", line_color="#d1d5db")
         fig2.update_layout(yaxis=dict(tickformat="$.2f"))
         st.plotly_chart(fig2, use_container_width=True)
 
@@ -405,10 +470,10 @@ with t2:
 
         st.markdown("<br>", unsafe_allow_html=True)
         fig_c = make_fig(340)
-        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["3-2-1 Crack"],    name="3-2-1",   line=dict(color="#f97316",width=2)))
-        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["Gasóleo Crack"],  name="Gasóleo", line=dict(color="#4ade80",width=2)))
-        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["Gasolina Crack"], name="Gasolina",line=dict(color="#60a5fa",width=2)))
-        fig_c.add_hline(y=0, line_dash="dash", line_color="#374151")
+        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["3-2-1 Crack"],    name="3-2-1",   line=dict(color="#e8450a",width=2)))
+        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["Gasóleo Crack"],  name="Gasóleo", line=dict(color="#16a34a",width=2)))
+        fig_c.add_trace(go.Scatter(x=df_crack["Date"], y=df_crack["Gasolina Crack"], name="Gasolina",line=dict(color="#2563eb",width=2)))
+        fig_c.add_hline(y=0, line_dash="dash", line_color="#d1d5db")
         fig_c.update_layout(yaxis=dict(tickformat="$.0f"))
         st.plotly_chart(fig_c, use_container_width=True)
 
@@ -460,10 +525,10 @@ with t3:
         st.markdown('<div class="section-header">Comparação de Margens Regionais</div>', unsafe_allow_html=True)
 
         fig_b = make_fig(340)
-        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["NW Europe (proxy)"],    name="NW Europe",  line=dict(color="#3b82f6",width=2)))
-        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Med Cracking (proxy)"], name="Med Cracking",line=dict(color="#f97316",width=2)))
-        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Sines Proxy"],          name="Sines",      line=dict(color="#4ade80",width=2,dash="dot")))
-        fig_b.add_hline(y=0, line_dash="dash", line_color="#374151")
+        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["NW Europe (proxy)"],    name="NW Europe",  line=dict(color="#2563eb",width=2)))
+        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Med Cracking (proxy)"], name="Med Cracking",line=dict(color="#e8450a",width=2)))
+        fig_b.add_trace(go.Scatter(x=df_bench["Date"], y=df_bench["Sines Proxy"],          name="Sines",      line=dict(color="#16a34a",width=2,dash="dot")))
+        fig_b.add_hline(y=0, line_dash="dash", line_color="#d1d5db")
         fig_b.update_layout(yaxis=dict(tickformat="$.0f", title="$/bbl"))
         st.plotly_chart(fig_b, use_container_width=True)
 
@@ -525,7 +590,7 @@ with t4:
     # Urals separado com aviso
     urals = next(c for c in all_crudes if c["nome"] == "Urals")
     st.markdown(f"""
-    <div class="crude-card" style="border-color:#7f1d1d; opacity:0.6;">
+    <div class="crude-card" style="border-color:#fca5a5; opacity:0.7;">
       <div class="crude-name">❌ {urals['nome']} <span style="color:#ef4444">●</span></div>
       <div class="crude-origin">{urals['origem']}</div>
       <div style="font-size:12px; color:#f87171; margin-top:6px;">{urals['notas']}</div>
@@ -541,16 +606,16 @@ with t4:
         marker_color=[c["cor"] for c in ranked_crudes],
         text=[f"${c['preco_efectivo']:.1f}" for c in ranked_crudes],
         textposition="outside",
-        textfont=dict(family="IBM Plex Mono", size=11, color="#9ca3af"),
+        textfont=dict(family="Source Sans 3", size=11, color="#374151"),
     ))
-    fig_cs.add_hline(y=brent_price, line_dash="dash", line_color="#f97316",
-                     annotation_text=f"Brent ${brent_price:.1f}", annotation_font_color="#f97316")
+    fig_cs.add_hline(y=brent_price, line_dash="dash", line_color="#e8450a",
+                     annotation_text=f"Brent ${brent_price:.1f}", annotation_font_color="#e8450a")
     fig_cs.update_layout(
-        paper_bgcolor="#0a0c0f", plot_bgcolor="#0a0c0f",
-        font=dict(family="IBM Plex Mono", color="#6b7280", size=11),
+        paper_bgcolor="#ffffff", plot_bgcolor="#ffffff",
+        font=dict(family="Source Sans 3", color="#6b7280", size=11),
         margin=dict(l=0, r=0, t=30, b=0), height=320,
-        xaxis=dict(gridcolor="#1a1f2e", showline=False),
-        yaxis=dict(gridcolor="#1a1f2e", showline=False, tickformat="$.0f", range=[min_price-5, max_price+8]),
+        xaxis=dict(gridcolor="#f3f4f6", showline=False),
+        yaxis=dict(gridcolor="#f3f4f6", showline=False, tickformat="$.0f", range=[min_price-5, max_price+8]),
         showlegend=False,
     )
     st.plotly_chart(fig_cs, use_container_width=True)
@@ -817,7 +882,7 @@ with t6:
         period_ir = st.selectbox("Período", ["3mo","6mo","1y"], index=2, key="ir_period", label_visibility="collapsed")
 
         fig_ir = make_fig(420)
-        colors_ir = ["#f97316","#3b82f6","#4ade80","#a855f7","#f59e0b","#06b6d4","#ec4899","#84cc16","#f87171","#818cf8"]
+        colors_ir = ["#e8450a","#2563eb","#16a34a","#7c3aed","#d97706","#0891b2","#db2777","#65a30d","#dc2626","#4f46e5"]
 
         highlight = ["Galp Energia", "BP", "TotalEnergies", "Shell", "Repsol"]
 
@@ -871,7 +936,7 @@ with t6:
 
     if indic_sel:
         fig_ind = make_fig(300)
-        ind_colors = ["#f97316","#3b82f6","#4ade80","#a855f7","#f59e0b","#06b6d4"]
+        ind_colors = ["#e8450a","#2563eb","#16a34a","#7c3aed","#d97706","#0891b2"]
         for i, name in enumerate(indic_sel):
             if name in indic_data and not indic_data[name]["hist"].empty:
                 h = indic_data[name]["hist"]
@@ -908,6 +973,6 @@ with t7:
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style="text-align:center; padding:40px 0 20px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#374151;">
-  Oil Market Intelligence · Business Office Industrial · Yahoo Finance + RSS Feeds · Proxies estimados — não substituem dados Argus/Platts
+  Oil Market Intelligence · Galp Refining Business Office · Yahoo Finance + RSS Feeds · Proxies estimados — não substituem dados Argus/Platts
 </div>
 """, unsafe_allow_html=True)
