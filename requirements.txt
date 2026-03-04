@@ -1,6 +1,5 @@
 streamlit
 yfinance
 feedparser
-anthropic
 plotly
 pandas
