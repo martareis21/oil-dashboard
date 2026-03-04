@@ -380,16 +380,12 @@ with st.spinner("A carregar dados de mercado..."):
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div class="galp-header">
-  <div style="display:flex; align-items:center; gap:32px;">
-    <span class="galp-logo">⚡ RefiningBI</span>
-    <span class="galp-nav">Refining Business Office &nbsp;·&nbsp; Market Intelligence</span>
+<div style="background:#fff; border-bottom:2px solid #e8450a; padding:18px 0 14px; margin-bottom:24px;">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <div style="font-size:22px; font-weight:700; color:#111827;">🛢️ Oil Market Intelligence Dashboard</div>
+    <div style="font-size:13px; color:#6b7280;"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</div>
   </div>
-  <span class="galp-nav"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</span>
-</div>
-<div style="background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 0 12px; margin-bottom:24px;">
-  <div style="font-size:20px; font-weight:700; color:#111827;">🛢️ Oil Market Intelligence Dashboard</div>
-  <div style="font-size:13px; color:#6b7280; margin-top:2px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
+  <div style="font-size:13px; color:#9ca3af; margin-top:4px;">Mercado · Crack Spreads · Benchmark · Crude Sourcing · Forecast · IR · Notícias</div>
 </div>
 """, unsafe_allow_html=True)
 
