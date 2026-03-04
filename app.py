@@ -135,7 +135,6 @@ def make_fig(height=300):
         yaxis=dict(gridcolor="#f3f4f6", showline=False, tickfont=dict(color="#9ca3af")),
         legend=dict(bgcolor="rgba(255,255,255,0.9)", font=dict(color="#374151"), bordercolor="#e5e7eb", borderwidth=1),
         hovermode="x unified",
-        plot_bgcolor="#ffffff",
     )
     return fig
 
@@ -254,7 +253,7 @@ def crude_sourcing_analysis(prices):
             "diferencial": 0.0,
             "frete_bbl": 0.8,
             "qualidade": "Sweet / Light — API 38, S 0.37%",
-            "notas": "Benchmark europeu. Referência base para Sines.",
+            "notas": "Benchmark europeu. Referência base para refinarias ibéricas.",
             "cor": "#f97316",
             "risco": "Baixo",
         },
@@ -304,7 +303,7 @@ def crude_sourcing_analysis(prices):
             "diferencial": -0.5,
             "frete_bbl": 1.0,
             "qualidade": "Medium / Light — API 32, S 0.17%",
-            "notas": "Angola é fornecedor histórico da Galp. Frete curto.",
+            "notas": "Angola fornecedor histórico de refinarias ibéricas. Frete curto.",
             "cor": "#06b6d4",
             "risco": "Baixo",
         },
@@ -383,7 +382,7 @@ with st.spinner("A carregar dados de mercado..."):
 st.markdown(f"""
 <div class="galp-header">
   <div style="display:flex; align-items:center; gap:32px;">
-    <span class="galp-logo">galp</span>
+    <span class="galp-logo">⚡ RefiningBI</span>
     <span class="galp-nav">Refining Business Office &nbsp;·&nbsp; Market Intelligence</span>
   </div>
   <span class="galp-nav"><span class="live-dot"></span>Live &nbsp;·&nbsp; {datetime.now().strftime("%d/%m/%Y %H:%M")}</span>
@@ -491,7 +490,7 @@ with t2:
 # TAB 3 — BENCHMARK MARGENS
 # ═══════════════════════════════════════════════════════════════════════════════
 with t3:
-    st.markdown('<div class="info-box">💡 Comparação da margem de refinação da Galp Sines com benchmarks europeus. <strong>Med Cracking</strong> é o índice de referência para refinarias do Mediterrâneo. Os valores são proxies calculados com dados públicos — os índices reais (Argus/Platts) são pagos.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-box">💡 Comparação da margem de refinação da refinaria com benchmarks europeus. <strong>Med Cracking</strong> é o índice de referência para refinarias do Mediterrâneo. Os valores são proxies calculados com dados públicos — os índices reais (Argus/Platts) são pagos.</div>', unsafe_allow_html=True)
     st.markdown('<div class="warn-box">⚠️ Estes valores são <strong>proxies estimados</strong> com base em crack spreads públicos. Os benchmarks reais Med Cracking Margin e NWE Cracking Margin são publicados pela Argus Media e S&P Global Platts (acesso pago via subscrição empresarial).</div>', unsafe_allow_html=True)
 
     period_b = st.selectbox("Período", ["3mo","6mo","1y"], index=1, key="bp", label_visibility="collapsed")
@@ -551,7 +550,7 @@ with t3:
 # TAB 4 — CRUDE SOURCING
 # ═══════════════════════════════════════════════════════════════════════════════
 with t4:
-    st.markdown('<div class="info-box">💡 Análise do custo efectivo de cada crude chegado a Sines: <strong>preço de mercado + diferencial de qualidade + frete estimado</strong>. Quanto menor o custo efectivo, melhor a margem potencial — desde que a refinaria consiga processar esse crude.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-box">💡 Análise do custo efectivo de cada crude chegado à refinaria: <strong>preço de mercado + diferencial de qualidade + frete estimado</strong>. Quanto menor o custo efectivo, melhor a margem potencial — desde que a refinaria consiga processar esse crude.</div>', unsafe_allow_html=True)
 
     brent_price = prices.get("Brent", {}).get("price", 80)
     all_crudes, ranked_crudes = crude_sourcing_analysis(prices)
@@ -830,7 +829,7 @@ with t6:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── Stock Performance ────────────────────────────────────────────────────
-    st.markdown('<div class="section-header">Oil & Gas — Stock Performance (1 ano)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Refining Business Office — Stock Performance (1 ano)</div>', unsafe_allow_html=True)
 
     if stock_data:
         # Ordenar por YTD performance
@@ -876,7 +875,7 @@ with t6:
         st.markdown("<br>", unsafe_allow_html=True)
 
         # Gráfico comparativo normalizado (base 100)
-        st.markdown('<div class="section-header">Performance Relativa Normalizada (Base 100)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Oil & Gas — Performance Relativa Normalizada (Base 100)</div>', unsafe_allow_html=True)
         st.markdown('<div class="info-box">Todas as acções normalizadas a 100 no início do período para comparação directa de performance relativa.</div>', unsafe_allow_html=True)
 
         period_ir = st.selectbox("Período", ["3mo","6mo","1y"], index=2, key="ir_period", label_visibility="collapsed")
@@ -972,7 +971,7 @@ with t7:
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="text-align:center; padding:40px 0 20px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#374151;">
-  Oil Market Intelligence · Galp Refining Business Office · Yahoo Finance + RSS Feeds · Proxies estimados — não substituem dados Argus/Platts
+<div style="text-align:center; padding:40px 0 20px; font-size:11px; color:#9ca3af;">
+  Oil Market Intelligence · Refining Business Office · Yahoo Finance + RSS Feeds · Proxies estimados — não substituem dados Argus/Platts
 </div>
 """, unsafe_allow_html=True)
